@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<office>
+	<employer>
+		<name>Stan Smith</name>
+	</employer>
+
+	<employer>
+		<name>Ivan Ivanov</name>
+	</employer>
+
+	<employer>
+		<name>Sergey Ivanov</name>
+	</employer>
+
+	<employer>
+		<name>Will Smith</name>
+	</employer>
+
+	<employer>
+		<name>Andrey Rudenko</name>
+	</employer>
+</office>
