@@ -7,46 +7,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
-
-//javac -cp .;"D:\xampp\tomcat\lib\servlet-api.jar" app.servlets.Office.java
 
 @WebServlet("/profile")
 public class Profile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-                ArrayList<String> employers = new ArrayList<>();
+                //ArrayList<String> employers = new ArrayList<>();
                 response.setContentType("text/html");
 
-                String person = request.getParameter("person");
-                final String url = "jdbc:postgresql://localhost/users";
-                final String user = "postgres";
-                final String password = "123";
-
+                String person, dbPerson = "";
+                //PrintWriter output = response.getWriter();
                 try{
-                    try (Connection connection = DriverManager.getConnection(url, user, password)) {
+                    try (Connection connection = DriverManager.getConnection(DbConfig.getUrl(), DbConfig.getUser(), DbConfig.getPassword())) {
                         Statement statement = connection.createStatement();
                         ResultSet resultSet = statement.executeQuery("SELECT * FROM employers");
-                        int iter = 0;
+                        person = request.getParameter("person");
                         while (resultSet.next()){
-                            iter++;
-                            if(Objects.equals(person, resultSet.getString(iter))){
-                                person = resultSet.getString(iter);
+                            if(Objects.equals(person, resultSet.getString(1))){
+                                dbPerson = resultSet.getString(1);
                                 break;
                             }
+                        }
+                        if(!Objects.equals(person, dbPerson)){
+                            dbPerson = "404 not found";
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
-
                 catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                request.setAttribute("person", person);
+                request.setAttribute("person", dbPerson);
                 getServletContext().getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 }

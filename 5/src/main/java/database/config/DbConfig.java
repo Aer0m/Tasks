@@ -13,7 +13,7 @@ public class DbConfig {
         return password;
     }
 
-    private final static String url = "jdbc:postgresql://localhost/users";
+    private final static String url = "jdbc:postgresql://localhost:5432/users";
     private final static String user = "postgres";
     private final static String password = "123";
 }
